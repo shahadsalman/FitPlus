@@ -1,1 +1,1 @@
-# GymApp
+# FitPlus
