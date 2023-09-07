@@ -1,0 +1,804 @@
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+class CreateAccount extends StatefulWidget {
+  CreateAccount({Key? key}) : super(key: key);
+  TextEditingController nameGym = TextEditingController();
+  TextEditingController locationGym = TextEditingController();
+  TextEditingController descriptionGym = TextEditingController();
+  TextEditingController priceOneMonth = TextEditingController();
+  TextEditingController priceThreeMonth = TextEditingController();
+  TextEditingController priceSixMonth = TextEditingController();
+  TextEditingController price12Month = TextEditingController();
+  bool availableWifi = true;
+  bool availableBarking = false;
+  String sundayFrom = 'From';
+  String sundayTo = 'To';
+  @override
+  State<CreateAccount> createState() => _CreateAccountState();
+}
+
+class _CreateAccountState extends State<CreateAccount> {
+  @override
+  Widget build(BuildContext context) {
+
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+          title: Text(
+            'Create Account',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.black,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )),
+      body: ListView(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Create Gym',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ],
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  /// change image logo
+                  pickImageAfterSelect(context: context);
+                },
+                child: Container(
+                  height: 150,
+                  width: 150,
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.black)),
+                  child: Center(
+                    child: Icon(Icons.camera_alt, size: 50),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Container(
+            height: 50,
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+            child: TextField(
+                controller: widget.nameGym,
+                decoration: InputDecoration(
+                  hintText: 'Name Gym',
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: Colors.red,
+                    ),
+                  ),
+                )),
+          ),
+          Container(
+            height: 50,
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+            child: TextField(
+                controller: widget.locationGym,
+                decoration: InputDecoration(
+                  hintText: 'Location Gym',
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: Colors.red,
+                    ),
+                  ),
+                )),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+            child: TextField(
+                maxLength: 2000,
+                maxLines: 3,
+                controller: widget.descriptionGym,
+                decoration: InputDecoration(
+                  hintText: 'Description Of Gym',
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: Colors.red,
+                    ),
+                  ),
+                )),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text('Available Wifi In GYM ?'),
+                ),
+                Switch(
+                  value: widget.availableWifi,
+                  onChanged: (value) {
+                    setState(() {
+                      widget.availableWifi = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text('Available Barking In GYM ?'),
+                ),
+                Switch(
+                  value: widget.availableBarking,
+                  onChanged: (value) {
+                    setState(() {
+                      widget.availableBarking = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text('Working Hours'),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text('Sunday'),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayFrom = await selectTime(context: context);
+                    print(widget.sundayFrom);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayFrom),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayTo = await selectTime(context: context);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayTo),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text('Monday'),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayFrom = await selectTime(context: context);
+                    print(widget.sundayFrom);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayFrom),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayTo = await selectTime(context: context);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayTo),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text('Sunday'),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayFrom = await selectTime(context: context);
+                    print(widget.sundayFrom);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayFrom),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayTo = await selectTime(context: context);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayTo),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text('Sunday'),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayFrom = await selectTime(context: context);
+                    print(widget.sundayFrom);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayFrom),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayTo = await selectTime(context: context);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayTo),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text('Sunday'),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayFrom = await selectTime(context: context);
+                    print(widget.sundayFrom);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayFrom),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayTo = await selectTime(context: context);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayTo),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text('Sunday'),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayFrom = await selectTime(context: context);
+                    print(widget.sundayFrom);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayFrom),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayTo = await selectTime(context: context);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayTo),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text('Sunday'),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayFrom = await selectTime(context: context);
+                    print(widget.sundayFrom);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayFrom),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayTo = await selectTime(context: context);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayTo),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text('Sunday'),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayFrom = await selectTime(context: context);
+                    print(widget.sundayFrom);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayFrom),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    widget.sundayTo = await selectTime(context: context);
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(widget.sundayTo),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Text(
+                  'Subscription Price',
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                    child: TextField(
+                        controller: widget.priceOneMonth,
+                        maxLength: 4,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          counterText: '',
+                          hintText: '1 month',
+                          hintStyle: TextStyle(fontSize: 12),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.red,
+                            ),
+                          ),
+                        )),
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                    child: TextField(
+                        controller: widget.priceThreeMonth,
+                        maxLength: 4,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          counterText: '',
+                          hintText: '3 month',
+                          hintStyle: TextStyle(fontSize: 12),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.red,
+                            ),
+                          ),
+                        )),
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                    child: TextField(
+                        controller: widget.priceSixMonth,
+                        maxLength: 4,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          counterText: '',
+                          hintText: '6 month',
+                          hintStyle: TextStyle(fontSize: 12),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.red,
+                            ),
+                          ),
+                        )),
+                  ),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                    child: TextField(
+                        controller: widget.price12Month,
+                        maxLength: 4,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          counterText: '',
+                          hintText: '12 month',
+                          hintStyle: TextStyle(fontSize: 12),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Colors.red,
+                            ),
+                          ),
+                        )),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: ElevatedButton(
+                onPressed: () {
+                  /// save all data in firebase (create account)
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  minimumSize: Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.login),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'Save',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(),
+                    ),
+                  ],
+                )),
+          ),
+          SizedBox(
+            height: 30,
+          )
+        ],
+      ),
+    );
+  }
+
+  Future<void> pickImageAfterSelect({required BuildContext context}) async {
+    ImagePicker imagePicker = ImagePicker();
+    late XFile? _pickedFile;
+
+    _pickedFile = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 25,
+    );
+    if (_pickedFile != null) {
+      /// here code upload image to firebase
+    }
+  }
+
+  Future<String> selectTime({
+    required BuildContext context,
+  }) async {
+    TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      initialEntryMode: TimePickerEntryMode.dialOnly,
+    );
+    DateTime dataNow = DateTime.now();
+    TimeOfDay dataNowTimeOfDay = TimeOfDay.fromDateTime(dataNow);
+    if (picked != null) {
+      return '${dataNowTimeOfDay.hour}:${dataNowTimeOfDay.minute}';
+    } else {
+      return '';
+    }
+  }
+}
