@@ -1,0 +1,82 @@
+import 'package:flutter/material.dart';
+
+class SignupPick extends StatelessWidget {
+const SignupPick({super.key});
+ @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+            height: 20,
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Image.asset(
+                'assets/logo.png',
+                width: 250,
+                height: 250,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const[
+                Text(
+                  'Who are you?',
+                  style:  TextStyle( fontSize: 40, fontWeight: FontWeight.bold ),
+                ),
+              ],
+            ),
+            SizedBox(height: 60,),
+
+            ElevatedButton(
+              onPressed: () async {},
+
+              child: Text(
+                'New User',
+                style: TextStyle(fontSize: 18),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 210, 202, 221),
+                minimumSize: const Size(double.infinity, 60),
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                        color: Colors.black
+                      ),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                
+              },
+              child: const Text(
+                'Gym Manager',
+                style: TextStyle(fontSize: 18),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 210, 202, 221),
+                minimumSize: const Size(double.infinity, 60),
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(
+                        color: Colors.black
+                      ),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+      
+  }
+}
+
